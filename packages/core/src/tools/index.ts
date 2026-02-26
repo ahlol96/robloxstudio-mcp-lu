@@ -1048,7 +1048,7 @@ export class RobloxStudioTools {
         if (typeof tupleModelKey !== 'string' || tupleModelKey.trim() === '') {
           throw new Error(`Invalid sceneData.place[${placementIndex}][0]: model key must be a non-empty string`);
         }
-        modelKey = tupleModelKey;
+        modelKey = tupleModelKey.trim();
         if (!isVec3Tuple(tuplePosition)) {
           throw new Error(`Invalid sceneData.place[${placementIndex}][1]: position must be a numeric [x,y,z] tuple`);
         }
@@ -1077,7 +1077,7 @@ export class RobloxStudioTools {
             `Invalid sceneData.place[${placementIndex}].rotation: must be a numeric [x,y,z] tuple when provided`
           );
         }
-        modelKey = objectModelKey;
+        modelKey = objectModelKey.trim();
         position = objectPosition;
         rotation = objectRotation as [number, number, number] | undefined;
       } else {
