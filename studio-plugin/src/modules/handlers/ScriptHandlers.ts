@@ -11,6 +11,7 @@ function normalizeEscapes(s: string): string {
 	result = result.gsub("\\n", "\n")[0];
 	result = result.gsub("\\t", "\t")[0];
 	result = result.gsub("\\r", "\r")[0];
+	result = result.gsub('\\"', '"')[0];
 	result = result.gsub("\\\\", "\\")[0];
 	return result;
 }

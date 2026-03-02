@@ -9,6 +9,7 @@ interface TreeNode {
 	children: TreeNode[];
 	hasSource?: boolean;
 	scriptType?: string;
+	enabled?: boolean;
 }
 
 function getFileTree(requestData: Record<string, unknown>) {
@@ -34,6 +35,9 @@ function getFileTree(requestData: Record<string, unknown>) {
 		if (instance.IsA("LuaSourceContainer")) {
 			node.hasSource = true;
 			node.scriptType = instance.ClassName;
+			if (instance.IsA("BaseScript")) {
+				node.enabled = instance.Enabled;
+			}
 		}
 
 		for (const child of instance.GetChildren()) {
@@ -55,7 +59,7 @@ function searchFiles(requestData: Record<string, unknown>) {
 
 	if (!query) return { error: "Query is required" };
 
-	const results: { name: string; className: string; path: string; hasSource: boolean }[] = [];
+	const results: { name: string; className: string; path: string; hasSource: boolean; enabled?: boolean }[] = [];
 
 	function searchRecursive(instance: Instance) {
 		let match = false;
@@ -69,12 +73,16 @@ function searchFiles(requestData: Record<string, unknown>) {
 		}
 
 		if (match) {
-			results.push({
+			const entry: { name: string; className: string; path: string; hasSource: boolean; enabled?: boolean } = {
 				name: instance.Name,
 				className: instance.ClassName,
 				path: getInstancePath(instance),
 				hasSource: instance.IsA("LuaSourceContainer"),
-			});
+			};
+			if (instance.IsA("BaseScript")) {
+				entry.enabled = instance.Enabled;
+			}
+			results.push(entry);
 		}
 
 		for (const child of instance.GetChildren()) {
@@ -300,15 +308,19 @@ function getInstanceChildren(requestData: Record<string, unknown>) {
 	const instance = getInstanceByPath(instancePath);
 	if (!instance) return { error: `Instance not found: ${instancePath}` };
 
-	const children: { name: string; className: string; path: string; hasChildren: boolean; hasSource: boolean }[] = [];
+	const children: { name: string; className: string; path: string; hasChildren: boolean; hasSource: boolean; enabled?: boolean }[] = [];
 	for (const child of instance.GetChildren()) {
-		children.push({
+		const entry: { name: string; className: string; path: string; hasChildren: boolean; hasSource: boolean; enabled?: boolean } = {
 			name: child.Name,
 			className: child.ClassName,
 			path: getInstancePath(child),
 			hasChildren: child.GetChildren().size() > 0,
 			hasSource: child.IsA("LuaSourceContainer"),
-		});
+		};
+		if (child.IsA("BaseScript")) {
+			entry.enabled = child.Enabled;
+		}
+		children.push(entry);
 	}
 
 	return { instancePath, children, count: children.size() };
@@ -568,6 +580,7 @@ function grepScripts(requestData: Record<string, unknown>) {
 		instancePath: string;
 		name: string;
 		className: string;
+		enabled?: boolean;
 		matches: LineMatch[];
 	}
 
@@ -644,12 +657,16 @@ function grepScripts(requestData: Record<string, unknown>) {
 			}
 
 			if (scriptMatchCount > 0) {
-				results.push({
+				const scriptResult: ScriptResult = {
 					instancePath: getInstancePath(instance),
 					name: instance.Name,
 					className: instance.ClassName,
 					matches: scriptMatches,
-				});
+				};
+				if (instance.IsA("BaseScript")) {
+					scriptResult.enabled = instance.Enabled;
+				}
+				results.push(scriptResult);
 			}
 		}
 

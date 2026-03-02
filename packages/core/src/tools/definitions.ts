@@ -18,8 +18,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
       properties: {
         path: {
           type: 'string',
-          description: 'Root path (default: game root)',
-          default: ''
+          description: 'Root path (default: game root)'
         }
       }
     }
@@ -38,8 +37,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
         searchType: {
           type: 'string',
           enum: ['name', 'type', 'content'],
-          description: 'Search mode',
-          default: 'name'
+          description: 'Search mode (default: name)'
         }
       },
       required: ['query']
@@ -84,8 +82,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
         searchType: {
           type: 'string',
           enum: ['name', 'class', 'property'],
-          description: 'Search mode',
-          default: 'name'
+          description: 'Search mode (default: name)'
         },
         propertyName: {
           type: 'string',
@@ -110,8 +107,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
         },
         excludeSource: {
           type: 'boolean',
-          description: 'For scripts, return SourceLength/LineCount instead of full source (default: false)',
-          default: false
+          description: 'For scripts, return SourceLength/LineCount instead of full source (default: false)'
         }
       },
       required: ['instancePath']
@@ -177,18 +173,15 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
       properties: {
         path: {
           type: 'string',
-          description: 'Root path (default: workspace root)',
-          default: ''
+          description: 'Root path (default: workspace root)'
         },
         maxDepth: {
           type: 'number',
-          description: 'Max traversal depth (default: 3)',
-          default: 3
+          description: 'Max traversal depth (default: 3)'
         },
         scriptsOnly: {
           type: 'boolean',
-          description: 'Show only scripts',
-          default: false
+          description: 'Show only scripts (default: false)'
         }
       }
     }
@@ -211,7 +204,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
           description: 'Property name'
         },
         propertyValue: {
-          description: 'Value to set'
+          description: 'Value to set (string, number, boolean, or object for Vector3/Color3/UDim2)'
         }
       },
       required: ['instancePath', 'propertyName', 'propertyValue']
@@ -234,7 +227,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
           description: 'Property name'
         },
         propertyValue: {
-          description: 'Value to set'
+          description: 'Value to set (string, number, boolean, or object for Vector3/Color3/UDim2)'
         }
       },
       required: ['paths', 'propertyName', 'propertyValue']
@@ -368,22 +361,16 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
             positionOffset: {
               type: 'array',
               items: { type: 'number' },
-              minItems: 3,
-              maxItems: 3,
               description: 'X, Y, Z offset per duplicate'
             },
             rotationOffset: {
               type: 'array',
               items: { type: 'number' },
-              minItems: 3,
-              maxItems: 3,
               description: 'X, Y, Z rotation offset'
             },
             scaleOffset: {
               type: 'array',
               items: { type: 'number' },
-              minItems: 3,
-              maxItems: 3,
               description: 'X, Y, Z scale multiplier'
             },
             propertyVariations: {
@@ -431,22 +418,16 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
                   positionOffset: {
                     type: 'array',
                     items: { type: 'number' },
-                    minItems: 3,
-                    maxItems: 3,
                     description: 'X, Y, Z offset per duplicate'
                   },
                   rotationOffset: {
                     type: 'array',
                     items: { type: 'number' },
-                    minItems: 3,
-                    maxItems: 3,
                     description: 'X, Y, Z rotation offset'
                   },
                   scaleOffset: {
                     type: 'array',
                     items: { type: 'number' },
-                    minItems: 3,
-                    maxItems: 3,
                     description: 'X, Y, Z scale multiplier'
                   },
                   propertyVariations: {
@@ -521,7 +502,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
           description: 'Operation'
         },
         value: {
-          description: 'Operand value'
+          description: 'Operand value (number or object for Vector3/UDim2 components)'
         },
         component: {
           type: 'string',
@@ -616,8 +597,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
         },
         afterLine: {
           type: 'number',
-          description: 'Insert after this line (0 = beginning)',
-          default: 0
+          description: 'Insert after this line (0 = beginning)'
         },
         newContent: {
           type: 'string',
@@ -687,7 +667,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
           description: 'Attribute name'
         },
         attributeValue: {
-          description: 'Value. Objects for Vector3/Color3/UDim2.'
+          description: 'Value (string, number, boolean, or object for Vector3/Color3/UDim2)'
         },
         valueType: {
           type: 'string',
@@ -844,23 +824,19 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
         },
         caseSensitive: {
           type: 'boolean',
-          description: 'Case-sensitive search (default: false)',
-          default: false
+          description: 'Case-sensitive search (default: false)'
         },
         usePattern: {
           type: 'boolean',
-          description: 'Use Lua pattern matching instead of literal (default: false)',
-          default: false
+          description: 'Use Lua pattern matching instead of literal (default: false)'
         },
         contextLines: {
           type: 'number',
-          description: 'Number of context lines before/after each match (like rg -C)',
-          default: 0
+          description: 'Number of context lines before/after each match (default: 0)'
         },
         maxResults: {
           type: 'number',
-          description: 'Max total matches before stopping (default: 100)',
-          default: 100
+          description: 'Max total matches before stopping (default: 100)'
         },
         maxResultsPerScript: {
           type: 'number',
@@ -868,8 +844,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
         },
         filesOnly: {
           type: 'boolean',
-          description: 'Only return matching script paths, not line details (like rg -l)',
-          default: false
+          description: 'Only return matching script paths, not line details (default: false)'
         },
         path: {
           type: 'string',
@@ -960,8 +935,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
         style: {
           type: 'string',
           enum: ['medieval', 'modern', 'nature', 'scifi', 'misc'],
-          description: 'Style category for the build',
-          default: 'misc'
+          description: 'Style category for the build (default: misc)'
         }
       },
       required: ['instancePath']
@@ -992,7 +966,6 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
           description: 'Array of part arrays. Each: [posX, posY, posZ, sizeX, sizeY, sizeZ, rotX, rotY, rotZ, paletteKey, shape?, transparency?]. Shapes: Block (default), Wedge, Cylinder, Ball, CornerWedge.',
           items: {
             type: 'array',
-            minItems: 10,
             items: {
               anyOf: [{ type: 'number' }, { type: 'string' }]
             }
@@ -1001,8 +974,6 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
         bounds: {
           type: 'array',
           items: { type: 'number' },
-          minItems: 3,
-          maxItems: 3,
           description: 'Optional bounding box [X, Y, Z]. Auto-computed if omitted.'
         }
       },
@@ -1097,8 +1068,6 @@ part(0,2,0,2,1,1,"b")`,
         position: {
           type: 'array',
           items: { type: 'number' },
-          minItems: 3,
-          maxItems: 3,
           description: 'World position offset [X, Y, Z]'
         }
       },
@@ -1133,8 +1102,7 @@ part(0,2,0,2,1,1,"b")`,
         },
         maxResults: {
           type: 'number',
-          description: 'Max results to return (default: 50)',
-          default: 50
+          description: 'Max results to return (default: 50)'
         }
       }
     }
@@ -1180,38 +1148,28 @@ part(0,2,0,2,1,1,"b")`,
                     required: ['modelKey', 'position'],
                     properties: {
                       modelKey: {
-                        type: 'string',
-                        minLength: 1
+                        type: 'string'
                       },
                       position: {
                         type: 'array',
-                        items: { type: 'number' },
-                        minItems: 3,
-                        maxItems: 3
+                        items: { type: 'number' }
                       },
                       rotation: {
                         type: 'array',
-                        items: { type: 'number' },
-                        minItems: 3,
-                        maxItems: 3
+                        items: { type: 'number' }
                       }
                     }
                   },
                   {
                     type: 'array',
-                    minItems: 2,
-                    maxItems: 3,
                     items: {
                       anyOf: [
                         {
-                          type: 'string',
-                          minLength: 1
+                          type: 'string'
                         },
                         {
                           type: 'array',
-                          items: { type: 'number' },
-                          minItems: 3,
-                          maxItems: 3
+                          items: { type: 'number' }
                         }
                       ]
                     }
@@ -1228,8 +1186,7 @@ part(0,2,0,2,1,1,"b")`,
         },
         targetPath: {
           type: 'string',
-          description: 'Parent instance path for the scene (default: game.Workspace)',
-          default: 'game.Workspace'
+          description: 'Parent instance path for the scene (default: game.Workspace)'
         }
       },
       required: ['sceneData']
@@ -1255,19 +1212,16 @@ part(0,2,0,2,1,1,"b")`,
         },
         maxResults: {
           type: 'number',
-          description: 'Max results to return (default: 25)',
-          default: 25
+          description: 'Max results to return (default: 25)'
         },
         sortBy: {
           type: 'string',
           enum: ['Relevance', 'Trending', 'Top', 'AudioDuration', 'CreateTime', 'UpdatedTime', 'Ratings'],
-          description: 'Sort order (default: Relevance)',
-          default: 'Relevance'
+          description: 'Sort order (default: Relevance)'
         },
         verifiedCreatorsOnly: {
           type: 'boolean',
-          description: 'Only show assets from verified creators',
-          default: false
+          description: 'Only show assets from verified creators (default: false)'
         }
       },
       required: ['assetType']
@@ -1302,8 +1256,7 @@ part(0,2,0,2,1,1,"b")`,
         size: {
           type: 'string',
           enum: ['150x150', '420x420', '768x432'],
-          description: 'Thumbnail size (default: 420x420)',
-          default: '420x420'
+          description: 'Thumbnail size (default: 420x420)'
         }
       },
       required: ['assetId']
@@ -1322,8 +1275,7 @@ part(0,2,0,2,1,1,"b")`,
         },
         parentPath: {
           type: 'string',
-          description: 'Parent instance path (default: game.Workspace)',
-          default: 'game.Workspace'
+          description: 'Parent instance path (default: game.Workspace)'
         },
         position: {
           type: 'object',
@@ -1351,13 +1303,11 @@ part(0,2,0,2,1,1,"b")`,
         },
         includeProperties: {
           type: 'boolean',
-          description: 'Include detailed properties for each instance (default: true)',
-          default: true
+          description: 'Include detailed properties for each instance (default: true)'
         },
         maxDepth: {
           type: 'number',
-          description: 'Max hierarchy traversal depth (default: 10)',
-          default: 10
+          description: 'Max hierarchy traversal depth (default: 10)'
         }
       },
       required: ['assetId']
