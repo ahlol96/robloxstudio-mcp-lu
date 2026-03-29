@@ -1,128 +1,89 @@
-# Roblox Studio MCP Server
+# robloxstudio-mcp-lu
 
-**Connect AI assistants like Claude and Gemini to Roblox Studio**
+**Roblox Studio MCP — optimized fork with reduced token usage**
 
-[![NPM Version](https://img.shields.io/npm/v/robloxstudio-mcp)](https://www.npmjs.com/package/robloxstudio-mcp)
+Connect Claude to Roblox Studio so it can read/edit scripts, modify instances, and make bulk changes directly in your open project.
 
 ---
-
-## What is This?
-
-An MCP server that lets AI explore your game structure, read/edit scripts, and perform bulk changes all locally and safely.
 
 ## Setup
 
-1. Install the [Studio plugin](https://github.com/boshyxd/robloxstudio-mcp/releases) to your Plugins folder
-2. Enable **Allow HTTP Requests** in Experience Settings > Security
-3. Connect your AI:
-
-**Claude Code:**
-```bash
-claude mcp add robloxstudio -- npx -y robloxstudio-mcp@latest
-```
-
-**Codex CLI:**
-```bash
-codex mcp add robloxstudio -- npx -y robloxstudio-mcp@latest
-```
-
-**Gemini CLI:**
-```bash
-gemini mcp add robloxstudio npx --trust -- -y robloxstudio-mcp@latest
-```
-
-Plugin shows "Connected" when ready.
-
-<details>
-<summary>Other MCP clients (Claude Desktop, Cursor, etc.)</summary>
-
-```json
-{
-  "mcpServers": {
-    "robloxstudio-mcp": {
-      "command": "npx",
-      "args": ["-y", "robloxstudio-mcp@latest"]
-    }
-  }
-}
-```
-
-**Windows users:** If you encounter issues, use `cmd`:
-```json
-{
-  "mcpServers": {
-    "robloxstudio-mcp": {
-      "command": "cmd",
-      "args": ["/c", "npx", "-y", "robloxstudio-mcp@latest"]
-    }
-  }
-}
-```
-</details>
-
-## What Can You Do?
-
-Ask things like: *"What's the structure of this game?"*, *"Find scripts with deprecated APIs"*, *"Create 50 test NPCs in a grid"*, *"Optimize this movement code"*
-
-<details>
-<summary><strong>Inspector Edition (Read-Only)</strong></summary>
-
-### robloxstudio-mcp-inspector
-
-[![NPM Version](https://img.shields.io/npm/v/robloxstudio-mcp-inspector)](https://www.npmjs.com/package/robloxstudio-mcp-inspector)
-
-A lighter, **read-only** version that only exposes inspection tools. No writes, no script edits, no object creation/deletion. Ideal for safely browsing game structure, reviewing scripts, and debugging without risk of accidental changes.
-
-**21 read-only tools:** `get_file_tree`, `search_files`, `get_place_info`, `get_services`, `search_objects`, `get_instance_properties`, `get_instance_children`, `search_by_property`, `get_class_info`, `get_project_structure`, `mass_get_property`, `get_script_source`, `grep_scripts`, `get_attribute`, `get_attributes`, `get_tags`, `get_tagged`, `get_selection`, `start_playtest`, `stop_playtest`, `get_playtest_output`
-
-**Setup** - same plugin, just swap the package name:
-
-**Claude:**
-```bash
-claude mcp add robloxstudio-inspector -- npx -y robloxstudio-mcp-inspector@latest
-```
-
-**Codex:**
-```bash
-codex mcp add robloxstudio-inspector -- npx -y robloxstudio-mcp-inspector@latest
-```
-
-**Gemini:**
-```bash
-gemini mcp add robloxstudio-inspector npx --trust -- -y robloxstudio-mcp-inspector@latest
-```
-
-<details>
-<summary>Other MCP clients (Claude Desktop, Cursor, etc.)</summary>
-
-```json
-{
-  "mcpServers": {
-    "robloxstudio-mcp-inspector": {
-      "command": "npx",
-      "args": ["-y", "robloxstudio-mcp-inspector@latest"]
-    }
-  }
-}
-```
-
-**Windows users:** If you encounter issues, use `cmd`:
-```json
-{
-  "mcpServers": {
-    "robloxstudio-mcp-inspector": {
-      "command": "cmd",
-      "args": ["/c", "npx", "-y", "robloxstudio-mcp-inspector@latest"]
-    }
-  }
-}
-```
-</details>
-
-</details>
+### Requirements
+- [Node.js](https://nodejs.org) v18+
+- Roblox Studio
+- Claude Code (VS Code extension)
 
 ---
 
-<!-- VERSION_LINE -->**v2.4.0** - 39 tools, inspector edition, monorepo architecture
+### 1 — Clone & build
 
-[Report Issues](https://github.com/boshyxd/robloxstudio-mcp/issues) | [DevForum](https://devforum.roblox.com/t/v180-roblox-studio-mcp-speed-up-your-workflow-by-letting-ai-read-paths-and-properties/3707071) | MIT Licensed
+```bash
+git clone https://github.com/ahlol96/robloxstudio-mcp-lu.git
+cd robloxstudio-mcp-lu
+npm install
+npm run build
+```
+
+---
+
+### 2 — Install the Studio plugin
+
+```bash
+npm run build:plugin
+```
+
+This automatically copies `MCPPlugin.rbxmx` to your Roblox Plugins folder.
+
+If it doesn't copy automatically, do it manually:
+
+- Find: `studio-plugin/MCPPlugin.rbxmx`
+- Copy to: `%LOCALAPPDATA%\Roblox\Plugins\`
+
+Then **restart Roblox Studio** — the MCPPlugin button will appear in the toolbar.
+
+> Also make sure **Allow HTTP Requests** is enabled:
+> Experience Settings → Security → Allow HTTP Requests ✓
+
+---
+
+### 3 — Register the MCP server with Claude
+
+Run this command — update the path to wherever you cloned the repo:
+
+```bash
+claude mcp add robloxstudio-mcp -s user -- node "C:\YOUR\PATH\robloxstudio-mcp-lu\packages\robloxstudio-mcp\dist\index.js"
+```
+
+Example if you cloned to your Desktop:
+
+```bash
+claude mcp add robloxstudio-mcp -s user -- node "C:\Users\YOURNAME\Desktop\robloxstudio-mcp-lu\packages\robloxstudio-mcp\dist\index.js"
+```
+
+---
+
+### 4 — Verify
+
+```bash
+claude mcp list
+```
+
+You should see:
+
+```
+robloxstudio-mcp: node ... - ✓ Connected
+```
+
+---
+
+### 5 — Connect in Studio
+
+Open Roblox Studio with your place, click the **MCPPlugin** button in the toolbar. It will show **Connected** when ready.
+
+---
+
+## What's different from the original?
+
+- **38 tools instead of 55** — removed redundant/rarely-used tools so Claude uses fewer tokens per request
+- **Trimmed descriptions** — all tool schemas are as compact as possible
+- Plugin built and included in the repo (`studio-plugin/MCPPlugin.rbxmx`)
